@@ -110,10 +110,10 @@ mongorestore --uri="mongodb://localhost:27017" --archive="backup-YYYY-MM-DD_HH-M
 
 👤 Author
 
-Shardul Vijay Patil
+Shardul Vijay Patil 
 
-LinkedIn: shardul-vijay-patil
+LinkedIn: https://www.linkedin.com/in/shardul-vijay-patil-9a51b91a5?utm_source=share_via&utm_content=profile&utm_medium=member_ios
 
-Portfolio: GitHub Profile
+Portfolio: https://github.com/shardul200212345/Shardya-Portfolio
 
 Email: patilshardul72@gmail.com
