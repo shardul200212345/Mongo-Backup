@@ -1,0 +1,307 @@
+# Connects to your EC2 instance securely using your private key.
+>> ssh -i "your-key.pem" ubuntu@<your-ec2-ip>
+
+# Update system
+>> sudo apt update && sudo apt upgrade -y
+
+# Add MongoDB GPG Key
+>> curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor
+
+# Add Repository
+>> echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+
+# Install MongoDB & Tools
+>> sudo apt update
+sudo apt install -y mongodb-org mongodb-database-tools
+
+# Start & Enable MongoDB
+>> sudo systemctl start mongod
+sudo systemctl enable mongod
+
+
+#Lists all S3 buckets in your account to verify AWS credentials and connectivity.
+>> aws s3 ls
+
+#Connect securely to your remote AWS EC2 instance using your private key
+>> ssh -i "your-key.pem" ubuntu@<your-ec2-public-ip>
+
+#Refresh the local package index and automatically install all available software updates.
+>> sudo apt update && sudo apt upgrade -y
+
+#Install tools needed for downloading files (curl) and managing encryption keys (gnupg).
+>> sudo apt install gnupg curl
+
+#Download the official MongoDB GPG key and save it to your system's keyring so it can verify the download's authenticity.
+>> curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
+curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
+sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor
+
+
+#Add the official MongoDB 8.0 repository to your system's list of software sources.
+>> echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+
+#Update the package list again so your system recognizes the newly added MongoDB repository.
+>> sudo apt update
+
+#Install the core MongoDB server package and essential database tools (which includes mongodump).
+>> sudo apt install -y mongodb-org mongodb-database-tools
+
+#Start the MongoDB background service.
+>> sudo systemctl start mongod
+
+#Configure the MongoDB service to start automatically every time the server reboots.
+>> sudo systemctl enable mongod
+
+#Check the current health and running status of the MongoDB service.
+>> sudo systemctl status mongod
+
+#Open the interactive MongoDB Shell to run database commands.
+>> mongosh
+
+#Switch to the database named 'aquaheal_db' (MongoDB will create it if it doesn't exist yet)
+>> use 1stprojectimpl
+
+#Switch to the database named 'aquaheal_db' (MongoDB will create it if it doesn't exist yet)
+>> db.sensors.insertOne({ sensor_id: 1, status: "active", location: "Pune" })
+
+#Exit the MongoDB Shell and return to the Linux terminal.
+>> exit
+
+
+#Refresh the local package index and automatically install all available software updates.
+>> sudo apt update && sudo apt upgrade -y
+
+#install gnupg and curl for mongodb key 
+>> sudo apt install gnupg curl -y
+curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor
+
+
+#Add the official MongoDB 8.0 repository to your system's list of software sources.
+>> echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+
+
+#Update the package list again so your system recognizes the newly added MongoDB repository.
+>> sudo apt update
+
+#Install the core MongoDB server package and essential database tools (which includes mongodump).
+>> sudo apt install -y mongodb-org mongodb-database-tools
+
+#Install the core MongoDB server package and essential database tools (which includes mongodump).
+>> sudo systemctl start mongod
+
+#Configure the MongoDB service to start automatically every time the server reboots.
+>> sudo systemctl enable mongod
+
+#it shows the version of mongodump which i have installed 
+>> mongodump --version
+
+>> aws s3 ls use s3 ls (for checking of s3 bucket ) 
+
+
+#Download the AWS Command Line Interface (CLI) installation package as a zip file.
+>> curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+
+#Install the unzip utility to extract the downloaded AWS CLI package.
+>> sudo apt install unzip -y
+
+#Extract the contents of the AWS CLI zip file.
+>> unzip awscliv2.zip
+
+
+#Run the AWS installer script with administrator privileges to install the CLI system-wide.
+>> sudo ./aws/install
+
+
+#Open the Nano text editor to create a new file named 'backup_script.sh'.
+>> nano backup_script.sh
+
+
+# 1. Define Variables
+>> TIMESTAMP=$(date +%F_%H-%M-%S)
+BACKUP_NAME="mongodb_backup_$TIMESTAMP"
+S3_BUCKET="YOUR_BUCKET_NAME_HERE"
+
+# 2. Run mongodump (Creates a 'dump' folder)
+>> mongodump --out ./$BACKUP_NAME
+
+# 3. Zip the backup folder
+>> tar -cvzf $BACKUP_NAME.tar.gz ./$BACKUP_NAME
+
+# 4. Upload to S3
+>> aws s3 cp $BACKUP_NAME.tar.gz s3://$S3_BUCKET/
+
+# 5. Cleanup local files (to save space)
+>> rm -rf ./$BACKUP_NAME
+rm $BACKUP_NAME.tar.gz
+
+
+#Print a success message to the terminal (or log file).
+>> echo "Backup $BACKUP_NAME uploaded successfully!"
+
+#Make the backup script executable so it can be run as a program.
+>> chmod +x backup_script.sh
+
+#Run the script manually to test if the backup and upload process works.
+>> ./backup_script.sh
+
+
+#Open the cron table editor to schedule automated tasks.
+>> crontab -e
+
+#Schedule the script to run every day at 2:00 AM.
+>> #Append (>>) standard output and standard errors (2>&1) to 'backup.log' for tracking.
+0 2 * * * /home/ubuntu/backup_script.sh >> /home/ubuntu/backup.log 2>&1
+
+#it shows the code written in crontab file .
+>> crontab -l
+
+#you have to check your S3 bucket tomorrow for the backup files 
+............................................................................................................................................................................................
+
+# This represents a naming convention, likely intended as the name of an Amazon S3 bucket
+>> company-mongodb-backups
+
+# This is an AWS IAM (Identity and Access Management) permission.
+>> s3:PutObject
+
+# This is a native MongoDB command-line utility.
+>> mongodump
+
+# This is the official Python driver library used by developers to connect to, query
+>>pymongo
+
+# This is an AWS CloudWatch Events / EventBridge cron expression
+>> cron(0 0 * * ? *)
+
+# The MongoDB database backup command utility 
+>> mongodump
+
+# This is an AWS PowerShell cmdlet used to upload a local file to an Amazon S3 bucket.
+>> Write-S3Object
+
+# The AWS IAM permission required for uploading files to S3
+>> s3:PutObject
+
+# A standard programming block used for error handling
+>> try-catch
+
+# A naming convention, likely representing the name of an Amazon SNS (Simple Notification Service)
+>>  BackupAlerts
+
+# The AWS PowerShell cmdlet used to upload data to S3
+>>  Write-S3Object
+
+# A PowerShell script snippet. It attempts to upload a database backup file (db.gz) to an S3 bucket (my-backups)
+>>  try { Write-S3Object -BucketName "my-backups" -File "db.gz" } catch { Publish-SNSMessage -TopicArn "arn:aws:sns:..." -Message "Backup Failed: $($_.Exception.Message)" }
+
+# This represents a specific Log Group name inside AWS CloudWatch Logs
+>>  /aws/ec2/MongoDB_Backups
+
+# An AWS PowerShell cmdlet used to send a custom text message
+>>  Publish-SNSMessage -TopicArn "PASTE_YOUR_TOPIC_ARN_HERE" -Message "The Backup Failed!"
+
+# A custom naming convention for an AWS CloudWatch Log Group dedicated to backup logs
+>>  /myproject/backups
+
+# An AWS PowerShell command that writes a custom log entry into AWS CloudWatch Logs
+>>  Write-CWLLogEvent -LogGroupName "/myproject/backups" -LogStreamName "BackupStream" -LogEvent @{Message="Backup completed successfully at $(Get-Date)"; Timestamp=(Get-Date)}
+
+# An AWS EC2 instance type
+>>  t2.micro
+
+# A comprehensive PowerShell backup orchestration script. It defines the SNS and CloudWatch targets as variables, attempts the backup, logs a success message to CloudWatch if it works, and if it fails
+>> $TopicArn="arn:aws:sns:us-east-1:123456789:MyBackupAlerts"; $LogGroup="/myproject/backups"; try { Write-Host "Starting Backup..."; Write-CWLLogEvent -LogGroupName $LogGroup -LogStreamName "Status" -LogEvent @{Message="SUCCESS: Database backed up."; Timestamp=(Get-Date)} } catch { Publish-SNSMessage -TopicArn $TopicArn -Message "ALARM: Backup failed. Check logs!"; Write-CWLLogEvent -LogGroupName $LogGroup -LogStreamName "Status" -LogEvent @{Message="ERROR: $($_.Exception.Message)"; Timestamp=(Get-Date)} }
+
+#The base AWS PowerShell cmdlet used to publish a message to an SNS topic
+>>  Publish-SNSMessage
+
+# The AWS Command Line Interface (CLI) equivalent of sending an SNS failure alert from a Linux or Windows command prompt
+>>  aws sns publish --topic-arn "YOUR_TOPIC_ARN_HERE" --message "The Backup Failed!"
+
+# Bash commands to update the local package manager list and automatically install the AWS Command Line Interface
+>> sudo apt update && sudo apt install awscli -y
+
+#Bash commands to update the package manager and automatically install PowerShell
+>> sudo apt update && sudo apt install -y powershell
+
+#The terminal command used to launch the PowerShell Core session/prompt from a standard command line (like Bash or CMD)
+>> pwsh
+
+# A PowerShell command to download and install the specific AWS Tools
+>>  Install-Module -Name AWS.Tools.SNS
+
+# The base AWS CLI command structure used to send notifications via Amazon SNS
+>>  aws sns publish
+
+# An example of an Amazon Resource Name (ARN)
+>>  arn:aws:sns:us-east-1:123456789012:MyBackupAlerts
+
+# WS CLI command instructing SNS to send a failure message to a specific Topic ARN
+>>  aws sns publish --topic-arn "PASTE_YOUR_COPIED_ARN_HERE" --message "The Backup Failed!"
+
+# A naming convention for an AWS IAM Role attached to an EC2 instance
+>>  EC2_SNS_Role
+
+# An AWS CLI command that manually pushes a log event to CloudWatch Logs
+>>  aws logs put-log-events --log-group-name "/myproject/backups" --log-stream-name "BackupStream" --log-events timestamp=$(date +%s%3N),message="Backup completed successfully"
+
+# he base AWS CLI command suite used to interact with Amazon CloudWatch Logs
+>>  aws logs
+
+# A PowerShell cmdlet testing the SNS configuration by sending a Proof of Concept (POC) message
+>>  Publish-SNSMessage -TopicArn "arn:aws:iam::761520024988:root" -Subject "POC Test" -Message "Testing the alert system from local PowerShell."
+
+# An AWS PowerShell command that fetches information about an Auto Scaling Group named "MyTeam-ASG"
+>> Get-ASAutoScalingGroup -AutoScalingGroupName "MyTeam-ASG" | Select-Object AutoScalingGroupName, DesiredCapacity, MinSize, MaxSize
+
+# An AWS PowerShell command that lists all individual EC2 instances running inside an Auto Scaling Group
+>>  Get-ASAutoScalingInstance | Select-Object InstanceId, AutoScalingGroupName, HealthStatus, LifecycleState
+
+# An AWS PowerShell command that retrieves logs from CloudWatch
+>>  Get-CWLLogEvent -LogGroupName "/myproject/backups" -LogStreamName "BackupStream" | Select-Object Message, @{N='Time';E={[DateTimeOffset]::FromUnixTimeMilliseconds($_.Timestamp).DateTime}}
+
+# A PowerShell command to forcibly install the base AWS.Tools.Installer module from the PowerShell Gallery
+>>  Install-Module -Name AWS.Tools.Installer -Force -AllowClobber
+
+# A PowerShell command using the AWS Tools Installer to install the specific SNS module while cleaning up (removing) older versions of the module to save space and prevent conflicts.
+>> Install-AWSToolsModule AWS.Tools.SNS -CleanUp
+
+# PowerShell cmdlet testing the SNS Proof of Concept.
+>>  Publish-SNSMessage -TopicArn "1stprojectimpl" -Subject "POC Test" -Message "Testing the alert system from local PowerShell."
+
+# A PowerShell command to configure your local environment with standard AWS programmatic credentials
+>>  Initialize-AWSDefaultConfiguration -AccessKey "1stprojectimpl.pem" -SecretKey "1stprojectimpl.pem" -Region "us-east-1"
+
+# An AWS CLI command used to send a test message verifying that the SNS topic is configured correctly and permissions are working
+>>aws sns publish --topic-arn "arn:aws:iam::761520024988:root" --message "POC Verification: Alert system is working!"
+
+# An AWS CLI command that retrieves the most recent 5 log entries from your backup CloudWatch log stream
+>> aws logs get-log-events --log-group-name "/myproject/backups" --log-stream-name "BackupStream" --limit 5
+
+
+# An AWS CLI command that queries the "MyTeam-ASG" Auto Scaling Group and uses JMESPath (--query) to filter the JSON output so it only displays the health status of the instances inside that group
+>>  aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names "MyTeam-ASG" --query "AutoScalingGroups[].Instances[].HealthStatus"
+
+# WS CLI command verifying the SNS alert configuration
+>>  aws sns publish --topic-arn "arn:aws:iam::761520024988:root" --message "POC Verification: Alert system is working!"
+
+# AWS CLI command to view the 5 most recent backup logs
+>>  aws logs get-log-events --log-group-name "/myproject/backups" --log-stream-name "BackupStream" --limit 5
+
+# AWS CLI command to check the health status of instances in your Auto Scaling Group
+>>  aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names "MyTeam-ASG" --query "AutoScalingGroups[].Instances[].HealthStatus" 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

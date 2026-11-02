@@ -1,0 +1,216 @@
+
+# 1. Define Variables
+TIMESTAMP=$(date +%F_%H-%M-%S)
+1stprojectimpl ="mongodb_backup_$TIMESTAMP"
+S3_BUCKET=" 1stprojectimpl "
+
+# 2. Run mongodump (Creates a 'dump' folder)
+mongodump --out ./$1stprojectimpl
+
+# 3. Zip the backup folder
+tar -cvzf $1stprojectimpl .tar.gz ./$1stprojectimpl
+
+# 4. Upload to S3
+aws s3 cp $1stprojectimpl .tar.gz s3://$1stprojectimpl /
+
+# 5. Cleanup local files (to save space)
+rm -rf ./$1stprojectimpl
+rm $1stprojectimpl E.tar.gz
+
+echo "Backup $BACKUP_NAME uploaded successfully!"
+
+
+..............................................................................................................................................................................................
+
+
+#Use these two lines of code at the last of crontab file
+
+
+
+[9:42 pm, 14/05/2026] Shardul Patil E: 0 2 * * * /home/ubuntu/backup_script.sh >> /home/ubuntu/backup.log 2>&1
+[9:43 pm, 14/05/2026] Shardul Patil E: 0 */6 * * * /bin/bash /home/ubuntu/1stprojectimpl_script.sh >> /home/ubuntu/backup_log.txt 2>&1
+
+
+#
+company-mongodb-backups
+
+#
+s3:PutObject
+
+#
+mongodump
+
+#
+pymongo
+
+#
+cron(0 0 * * ? *)
+
+#
+mongodump
+
+#
+mongodump
+
+#
+Write-S3Object
+
+#
+s3:PutObject
+
+#
+try-catch
+
+#
+BackupAlerts
+
+#
+Write-S3Object
+
+#
+try {
+    # Your backup code here
+    Write-S3Object -BucketName "my-backups" -File "db.gz"
+} catch {
+    Publish-SNSMessage -TopicArn "arn:aws:sns:..." -Message "Backup Failed: $($_.Exception.Message)"
+}
+
+#
+/aws/ec2/MongoDB_Backups
+
+#
+Publish-SNSMessage -TopicArn "PASTE_YOUR_TOPIC_ARN_HERE" -Message "The Backup Failed!"
+
+#
+/myproject/backups
+
+#
+ This sends a 'Success' message to AWS logs
+Write-CWLLogEvent -LogGroupName "/myproject/backups" -LogStreamName "BackupStream" -LogEvent @{Message="Backup completed successfully at $(Get-Date)"; Timestamp=(Get-Date)}
+
+#
+t2.micro
+
+#
+# 1. Variables
+$TopicArn = "arn:aws:sns:us-east-1:123456789:MyBackupAlerts"
+$LogGroup = "/myproject/backups"
+
+try {
+    # 2. Your existing Backup Code
+    Write-Host "Starting Backup..."
+    # (Insert your mongodump and S3 upload commands here)
+
+    # 3. Success Logging
+    Write-CWLLogEvent -LogGroupName $LogGroup -LogStreamName "Status" -LogEvent @{Message="SUCCESS: Database backed up."; Timestamp=(Get-Date)}
+}
+catch {
+    # 4. Failure Alert
+    Publish-SNSMessage -TopicArn $TopicArn -Message "ALARM: Backup failed. Check logs!"
+    Write-CWLLogEvent -LogGroupName $LogGroup -LogStreamName "Status" -LogEvent @{Message="ERROR: $($_.Exception.Message)"; Timestamp=(Get-Date)}
+}
+
+#
+Publish-SNSMessage
+
+#
+aws sns publish --topic-arn "YOUR_TOPIC_ARN_HERE" --message "The Backup Failed!"
+
+#
+sudo apt update
+sudo apt install awscli -y
+
+#
+sudo apt update
+sudo apt install -y powershell
+
+#
+pwsh
+
+#
+Install-Module -Name AWS.Tools.SNS
+
+#
+aws sns publish
+
+#
+arn:aws:sns:us-east-1:123456789012:MyBackupAlerts
+
+#
+aws sns publish --topic-arn "PASTE_YOUR_COPIED_ARN_HERE" --message "The Backup Failed!"
+
+#
+EC2_SNS_Role
+
+#
+aws logs put-log-events --log-group-name "/myproject/backups" --log-stream-name "BackupStream" --log-events timestamp=$(date +%s%3N),message="Backup completed successfully"
+
+#
+aws logs
+
+#
+Publish-SNSMessage -TopicArn "YOUR_ACTUAL_SNS_TOPIC_ARN" -Subject "POC Test" -Message "Testing the alert system from local PowerShell."
+
+#
+Get-ASAutoScalingGroup -AutoScalingGroupName "MyTeam-ASG" | Select-Object AutoScalingGroupName, DesiredCapacity, MinSize, MaxSize
+
+#
+Get-ASAutoScalingInstance | Select-Object InstanceId, AutoScalingGroupName, HealthStatus, LifecycleState
+
+#
+Get-CWLLogEvent -LogGroupName "/myproject/backups" -LogStreamName "BackupStream" | Select-Object Message, @{N='Time';E={[DateTimeOffset]::FromUnixTimeMilliseconds($_.Timestamp).DateTime}}
+
+#
+Install-Module -Name AWS.Tools.Installer -Force -AllowClobber
+
+#
+Install-AWSToolsModule AWS.Tools.SNS -CleanUp
+
+#
+Publish-SNSMessage -TopicArn "YOUR_ACTUAL_SNS_TOPIC_ARN" -Subject "POC Test" -Message "Testing the alert system from local PowerShell."
+
+#
+Initialize-AWSDefaultConfiguration -AccessKey "YOUR_ACCESS_KEY" -SecretKey "YOUR_SECRET_KEY" -Region "us-east-1"
+
+#
+aws sns publish --topic-arn "YOUR_ACTUAL_TOPIC_ARN" --message "POC Verification: Alert system is working!"
+
+#
+aws logs get-log-events --log-group-name "/myproject/backups" --log-stream-name "BackupStream" --limit 5
+
+#
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names "MyTeam-ASG" --query "AutoScalingGroups[].Instances[].HealthStatus"
+
+#
+aws sns publish --topic-arn "PASTE_YOUR_COPIED_ARN_HERE" --message "POC Verification: Alert system is working!"
+
+#
+aws logs get-log-events --log-group-name "/myproject/backups" --log-stream-name "BackupStream" --limit 5
+
+#
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names "MyTeam-ASG" --query "AutoScalingGroups[].Instances[].HealthStatus"
+
+#
+
+..........................................................................................................................................
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "run_as_user": "root"
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/backup.log",
+            "log_group_name": "MongoDB-Backup-Pipeline-Group",
+            "log_stream_name": "{hostname}-backup-stream",
+            "retention_in_days": 14
+          }
+        ]
+      }
+    }
+  }
+}
+
